@@ -1,0 +1,33 @@
+language: rust
+
+rust:
+  - stable
+  - beta
+  - nightly
+
+env:
+  - TEST_COMMAND=test EXTRA_FLAGS='' FEATURES=''
+  - TEST_COMMAND=test EXTRA_FLAGS='' FEATURES='nightly'
+  - TEST_COMMAND=bench EXTRA_FLAGS='' FEATURES='nightly bench'
+  - TEST_COMMAND=build EXTRA_FLAGS=--no-default-features FEATURES='' 
+
+matrix:
+  exclude:
+    # Run benchmarks only on nightly
+    - rust: stable
+      env: TEST_COMMAND=bench EXTRA_FLAGS='' FEATURES='nightly bench'
+    - rust: beta
+      env: TEST_COMMAND=bench EXTRA_FLAGS='' FEATURES='nightly bench'
+    # Test nightly features, such as radix_51, only on nightly.
+    - rust: stable
+      env: TEST_COMMAND=test EXTRA_FLAGS='' FEATURES='nightly'
+    - rust: beta
+      env: TEST_COMMAND=test EXTRA_FLAGS='' FEATURES='nightly'
+    # Test no_std only on nightly.
+    - rust: stable
+      env: TEST_COMMAND=build EXTRA_FLAGS=--no-default-features FEATURES=''
+    - rust: beta
+      env: TEST_COMMAND=build EXTRA_FLAGS=--no-default-features FEATURES=''
+
+script:
+  - cargo $TEST_COMMAND --features="$FEATURES" $EXTRA_FLAGS
