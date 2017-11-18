@@ -1,0 +1,28 @@
+[package]
+name = "davros"
+version = "0.0.0"
+authors = ["Isis Lovecruft <isis@patternsinthevoid.net>"]
+description = "Deterministic And Verifiable Randomness On Schnorr signatures"
+readme = "README.md"
+license = "BSD-3-Clause"
+repository = "https://github.com/isislovecruft/davros"
+homepage = "https://docs.rs/davros"
+documentation = "https://docs.rs/davros"
+categories = ["cryptography", "no-std"]
+keywords = ["curve25519", "signatures", "DSA", "schnorr", "VRF"]
+exclude = [
+    ".gitignore",
+    ".travis.yml",
+]
+
+[badges]
+travis-ci = { repository = "isislovecruft/davros", branch = "master"}
+
+[dependencies.curve25519-dalek]
+version = "^0.13"
+
+[features]
+nightly = ["curve25519-dalek/radix_51"]
+default = ["std"]
+std = ["curve25519-dalek/std"]
+bench = []
